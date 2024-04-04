@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: kubia-v2  # Choose a new name for the updated ReplicaSet
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - kubia
+  template:
+    metadata:
+      labels:
+        app: kubia
+    spec:
+      containers:
+      - image: yiranx6/kubia
+        imagePullPolicy: Always
+        name: kubia
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
